@@ -23,8 +23,7 @@ class MailSender:
         request = Request(user.name, user.email, "New notification", message)
         response = self.http_client.post(self.base_url, request)
         if response.code == 503:
-            # Bug! Should be `.post(self.base_url, request)`
-            next_try = self.http_client.post(self.base_url, response)
+            next_try = self.http_client.post(self.base_url, request)
             return next_try
         else:
             return response
