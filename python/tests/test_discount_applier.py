@@ -19,6 +19,10 @@ def test_apply_v1():
 
 
 def test_apply_v2():
-    # TODO: write a test that fails due to the bug in
-    # DiscountApplier.apply_v2
-    pass
+    discount_applier = DiscountApplier(Notifier())
+    users = [User(), User(), User()]
+    
+    discount_applier.apply_v2(10, users)
+    
+    for user in users:
+        assert user.notification == "You've got a new discount of 10%"
