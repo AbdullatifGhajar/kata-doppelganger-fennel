@@ -16,7 +16,6 @@ class MailSender:
         self.http_client = http_client
 
     def send_v1(self, user, message):
-        # Bug! Should be `Request(user.name, user.email, ...)`
         request = Request(user.name, user.email, "New notification", message)
         return self.http_client.post(self.base_url, request)
 

@@ -4,7 +4,6 @@ class SafeCalculator:
 
     def add(self, left, right):
         authorized = self.authorizer.authorize()
-        # Bug! Should be `if not authorized`
         if not authorized:
             raise Exception("Not authorized")
         return left + right
