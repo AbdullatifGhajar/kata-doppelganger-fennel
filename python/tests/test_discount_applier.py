@@ -27,10 +27,14 @@ def test_apply_v1():
 
 
 def test_apply_v2():
-    discount_applier = DiscountApplier(Notifier())
-    users = [User(), User(), User()]
+    notifier = MagicMock()
+    notifier.notify = MagicMock(return_value=None)
+    discount_applier = DiscountApplier(notifier)
+    users = [MagicMock(), MagicMock(), MagicMock()]
 
     discount_applier.apply_v2(10, users)
 
-    for user in users:
-        assert user.notification == "You've got a new discount of 10%"
+    expected_calls = expected_calls = [
+        ((user, "You've got a new discount of 10%"),) for user in users
+    ]
+    notifier.notify.assert_has_calls(expected_calls, any_order=True)
