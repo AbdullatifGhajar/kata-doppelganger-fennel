@@ -1,9 +1,21 @@
-from ..mail_sender import MailSender
+from ..mail_sender import MailSender, Request
+
+class Response:
+    def __init__(self, code):
+        self.code = code
 
 class HttpClient:
     def post(self, url, request):
         self.posted_url = url
         self.posted_request = request
+        
+        return Response(200)
+
+class FailingHttpClient(HttpClient):
+    def post(self, url, request):
+        super().post(url, request)
+        
+        return Response(503)  
         
 class User:
     def __init__(self, name, email):
@@ -22,5 +34,13 @@ def test_send_v1():
 
 
 def test_send_v2():
-    # TODO: write a test that fails due to the bug in MailSender.send_v2
-    pass
+    mail_sender = MailSender(FailingHttpClient())
+    user = User("Hugo", "hugo@efrei.net")
+    message = "Hello Hugo!"
+    
+    mail_sender.send_v2(user, message)
+
+    assert type(mail_sender.http_client.posted_request) == Request
+
+    
+    
