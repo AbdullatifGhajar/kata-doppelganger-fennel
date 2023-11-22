@@ -13,5 +13,5 @@ class DiscountApplier:
         for i in range(0, len(users)):
             message = f"You've got a new discount of {discount}%"
             # Bug! Should be `users[i]`
-            user = users[0]
+            user = users[i]
             self.notifier.notify(user, message)
